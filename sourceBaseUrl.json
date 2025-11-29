@@ -1,0 +1,52 @@
+[
+  {
+    "WN05RU": {
+      "name": "WN05漫画",
+      "type": "comic",
+      "baseUrl": "https://www.wn05.ru",
+      "imgServerUrl": "https://img.wn05.ru",
+      "search": {
+        "url": "/search",
+        "method": "GET",
+        "params": {
+          "q": "{keyword}",
+          "page": "{page}"
+        },
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          "Referer": "https://www.wn05.ru/",
+          "Accept-Language": "zh-CN,zh;q=0.9"
+        },
+        "searchInfoList": "//div[@class='comic-card']",
+        "title": ".comic-title/a/text()",
+        "author": ".comic-meta//span[contains(text(),'作者')]/following-sibling::text()",
+        "cover": ".comic-cover/img/@src",
+        "detailUrl": ".comic-title/a/@href"
+      },
+      "parseChapterList": {
+        "url": "{detailUrl}",
+        "method": "GET",
+        "chapterList": "//ul[@class='chapter-list']/li/a",
+        "chapterTitle": "text()",
+        "chapterUrl": "@href",
+        "reverse": true
+      },
+      "parseImageList": {
+        "url": "{chapterUrl}",
+        "method": "GET",
+        "xpath": "//div[@class='comic-content']//img/@src",
+        "imgUrlReplace": {
+          "^/": "https://www.wn05.ru/",
+          "thumb_": ""
+        },
+        "headers": {
+          "Referer": "{detailUrl}"
+        }
+      },
+      "backupBaseUrl": ["https://wn05.ru"],
+      "timeout": 20000,
+      "enabled": true,
+      "note": "境外网站可能需科学上网，部分漫画可能有地区限制"
+    }
+  }
+]
