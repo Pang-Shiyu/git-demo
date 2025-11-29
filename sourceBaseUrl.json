@@ -1,0 +1,50 @@
+{
+  "WN05RU": {
+    "name": "WN05漫画",
+    "type": "comic",
+    "baseUrl": "https://www.wn05.ru",
+    "imgServerUrl": "https://img.wn05.ru",
+    "search": {
+      "url": "/search",
+      "method": "GET",
+      "params": {
+        "q": "{keyword}",
+        "page": "{page}"
+      },
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://www.wn05.ru/",
+        "Accept-Language": "zh-CN,zh;q=0.9"
+      },
+      "searchInfoList": "//div[@class='comic-card']",
+      "title": ".comic-title/a/text()",
+      "author": ".comic-meta-mspan[contains(text(),'作者')]/following-sibling::text()",
+      "cover": ".comic-cover/img/@src",
+      "detailUrl": ".comic-title/a/@href"
+    },
+    "parseChapterList": {
+      "url": "{detailUrl}",
+      "method": "GET",
+      "chapterList": "//ul[@class='chapter-list']/li/a",
+      "chapterTitle": "text()",
+      "chapterUrl": "@href",
+      "reverse": true // 章节倒序（最新章节在前，根据网站实际排序调整）
+    },
+    "parseImageList": {
+      "url": "{chapterUrl}",
+      "method": "GET",
+      "xpath": "//div[@class='comic-content']//img/@src", // 直接提取页面图片地址
+      "imgUrlReplace": {
+        "^/": "https://www.wn05.ru/", // 补全相对路径为绝对路径
+        "thumb_": "" // 去除图片缩略图标识（若存在）
+      },
+      "headers": {
+        "Referer": "{detailUrl}" // 携带详情页Referer防反爬
+      }
+    },
+    "backupBaseUrl": ["https://wn05.ru"], // 备用域名（主域名带www失效时启用）
+    "timeout": 20000, // 超时时间（20秒，适配境外网站）
+    "enabled": true,
+    "note": "境外网站可能需科学上网，部分漫画可能有地区限制"
+  }
+}
