@@ -28,23 +28,21 @@
       "chapterList": "//ul[@class='chapter-list']/li/a",
       "chapterTitle": "text()",
       "chapterUrl": "@href",
-      "reverse": true // 章节倒序（最新章节在前，根据网站实际排序调整）
+      "reverse": true 
     },
     "parseImageList": {
       "url": "{chapterUrl}",
       "method": "GET",
-      "xpath": "//div[@class='comic-content']//img/@src", // 直接提取页面图片地址
+      "xpath": "//div[@class='comic-content']//img/@src", 
       "imgUrlReplace": {
-        "^/": "https://www.wn05.ru/", // 补全相对路径为绝对路径
-        "thumb_": "" // 去除图片缩略图标识（若存在）
+        "^/": "https://www.wn05.ru/", 
+        "thumb_": "" 
       },
       "headers": {
-        "Referer": "{detailUrl}" // 携带详情页Referer防反爬
+        "Referer": "{detailUrl}" 
       }
     },
-    "backupBaseUrl": ["https://wn05.ru"], // 备用域名（主域名带www失效时启用）
-    "timeout": 20000, // 超时时间（20秒，适配境外网站）
+    "backupBaseUrl": ["https://wn05.ru"], 
+    "timeout": 20000, 
     "enabled": true,
-    "note": "境外网站可能需科学上网，部分漫画可能有地区限制"
-  }
-}
+    "note"
